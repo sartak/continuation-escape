@@ -7,9 +7,9 @@ use Continuation::Escape;
 my $result = call_cc {
     my $escape = shift;
 
-    sub { $escape->("yatta") }->();
+    sub { $escape->("escaped!") }->();
 
     fail("This should never be reached");
 };
 
-is($result, "yatta");
+is($result, "escaped!");
