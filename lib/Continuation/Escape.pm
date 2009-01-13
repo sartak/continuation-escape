@@ -9,16 +9,14 @@ use Sub::Exporter -setup => {
     },
 };
 
-sub _count_caller_level {
-    my $i = 0;
-    1 while caller($i++);
-    return $i - 1; # -1 to discard _count_caller_level's stack frame
-}
-
 sub call_cc (&) {
     my $code = shift;
 
-    my $caller_level = _count_caller_level;
+    my $caller_level = do {
+        my $i = 0;
+        1 while caller($i++);
+        $i;
+    };
 
     my $escape_continuation = sub {
         unwind @_ => $caller_level;
