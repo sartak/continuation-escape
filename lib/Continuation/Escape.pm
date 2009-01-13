@@ -1,13 +1,10 @@
 package Continuation::Escape;
 use strict;
 use warnings;
+use base 'Exporter';
+our @EXPORT = 'call_cc';
+
 use Scope::Upper 'unwind';
-use Sub::Exporter -setup => {
-    exports => ['call_cc'],
-    groups => {
-        default => ['call_cc'],
-    },
-};
 
 sub call_cc (&) {
     my $code = shift;
