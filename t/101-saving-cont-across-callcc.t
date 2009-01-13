@@ -10,12 +10,9 @@ call_cc {
     $continuation = shift;
 };
 
-TODO: {
-    local $TODO = "Not bothering to check for this quite yet.";
-    throws_ok {
-        call_cc {
-            $continuation->();
-        };
-    } qr/^Escape continuations are not usable outside of their original scope\./;
-}
+throws_ok {
+    call_cc {
+        $continuation->();
+    };
+} qr/^Escape continuations are not usable outside of their original scope\./;
 
