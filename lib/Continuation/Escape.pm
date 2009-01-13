@@ -59,7 +59,7 @@ Continuation::Escape - escape continuations (returning higher up the stack)
             # ...
             $escape->(1 + 1);
             # code never reached
-        };
+        }->();
         # code never reached
     };
 
