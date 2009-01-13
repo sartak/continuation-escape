@@ -8,8 +8,7 @@ my @reached;
 
 call_cc {
     call_cc {
-        my $inner = shift;
-        $inner->();
+        shift->();
         push @reached, "inside";
     };
     push @reached, "outside";
