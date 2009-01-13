@@ -6,15 +6,14 @@ use Continuation::Escape;
 
 my @reached;
 
-my $ret = call_cc {
+call_cc {
     call_cc {
         my $inner = shift;
-        $inner->("from inner");
+        $inner->();
         push @reached, "inside";
     };
     push @reached, "outside";
 };
 
-is($ret, "from inner");
 is_deeply([splice @reached], ["outside"]);
 
