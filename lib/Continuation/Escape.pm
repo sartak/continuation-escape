@@ -4,7 +4,7 @@ use warnings;
 use base 'Exporter';
 our @EXPORT = 'call_cc';
 
-use Scope::Upper qw/unwind HERE/;
+use Scope::Upper qw/want_at unwind HERE/;
 
 # This registry is just so we can make sure that the user is NOT trying to save
 # and run continuations later. There's no way in hell Perl 5 can support real
@@ -24,7 +24,7 @@ sub call_cc (&) {
             Carp::croak("Escape continuations are not usable outside of their original scope.");
         }
 
-        unwind @_ => $escape_level;
+        unwind((want_at($escape_level) ? @_ : scalar(@_)) => $escape_level);
     };
 
     local $CONTINUATION_REGISTRY{$escape_continuation} = $escape_continuation;
@@ -63,11 +63,6 @@ An escape continuation is a limited type of continuation that only allows you
 to jump back up the stack. Invoking an escape continuation is a lot like
 throwing an exception, however escape continuations do not necessarily indicate
 exceptional circumstances.
-
-B<The interface for context will probably change.> Right now when squeezing a
-list into scalar context, the B<last> element is used, instead of the usual
-squeezing into the number of elements in that list. In the meantime, just use
-the same context on the receiving end as the sending end.
 
 This module builds on Vincent Pit's excellent L<Scope::Upper> to give you a
 nicer interface to returning to outer scopes.
