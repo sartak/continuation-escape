@@ -4,7 +4,7 @@ use warnings;
 use base 'Exporter';
 our @EXPORT = 'call_cc';
 
-use Scope::Upper 'unwind';
+use Scope::Upper qw/unwind HERE/;
 
 # This registry is just so we can make sure that the user is NOT trying to save
 # and run continuations later. There's no way in hell Perl 5 can support real
@@ -12,16 +12,10 @@ use Scope::Upper 'unwind';
 # Sorry if the name got you excited. :/
 our %CONTINUATION_REGISTRY;
 
-sub _count_caller_level () {
-    my $i = 0;
-    1 while caller($i++);
-    return $i - 1; # discard the _count_caller_level stack frame
-}
-
 sub call_cc (&) {
     my $code = shift;
 
-    my $escape_level = _count_caller_level;
+    my $escape_level = HERE;
 
     my $escape_continuation;
     $escape_continuation = sub {
@@ -30,8 +24,7 @@ sub call_cc (&) {
             Carp::croak("Escape continuations are not usable outside of their original scope.");
         }
 
-        my $difference = _count_caller_level - $escape_level;
-        unwind @_ => $difference;
+        unwind @_ => $escape_level;
     };
 
     local $CONTINUATION_REGISTRY{$escape_continuation} = $escape_continuation;
