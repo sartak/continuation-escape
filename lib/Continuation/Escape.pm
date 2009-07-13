@@ -4,7 +4,7 @@ use warnings;
 use 5.8.0;
 use base 'Exporter';
 our @EXPORT = 'call_cc';
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 use Scope::Upper qw/unwind HERE/;
 
