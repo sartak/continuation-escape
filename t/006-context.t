@@ -15,5 +15,5 @@ my $baz = call_cc {
     shift->("foo", "bar");
 };
 
-is($baz, "bar");
+is($baz, "foo");
 

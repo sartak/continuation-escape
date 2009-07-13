@@ -6,7 +6,7 @@ use base 'Exporter';
 our @EXPORT = 'call_cc';
 our $VERSION = '0.03';
 
-use Scope::Upper qw/want_at unwind HERE/;
+use Scope::Upper qw/unwind HERE/;
 
 # This registry is just so we can make sure that the user is NOT trying to save
 # and run continuations later.
@@ -17,6 +17,7 @@ sub call_cc (&) {
     my $code = shift;
 
     my $escape_level = HERE;
+    my $wantarray = wantarray;
 
     my $escape_continuation;
     $escape_continuation = sub {
@@ -25,7 +26,7 @@ sub call_cc (&) {
             Carp::croak("Escape continuations are not usable outside of their original scope.");
         }
 
-        unwind(@_ => $escape_level);
+        unwind(($wantarray ? @_ : $_[0]) => $escape_level);
     };
 
     local $CONTINUATION_REGISTRY{$escape_continuation} = $escape_continuation;
@@ -67,6 +68,13 @@ exceptional circumstances.
 
 This module builds on Vincent Pit's excellent L<Scope::Upper> to give you a
 nicer interface to returning to outer scopes.
+
+=head1 CONTEXT
+
+If the return context of the continuation is scalar, the first argument to the
+continuation will be returned. This is slightly more useful than C<1>, the
+number of arguments to the continuation. This DWIMs when you want to return
+a scalar anyway.
 
 =head1 CAVEATS
 
