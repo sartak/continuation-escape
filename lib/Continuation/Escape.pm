@@ -9,8 +9,7 @@ our $VERSION = '0.03';
 use Scope::Upper qw/want_at unwind HERE/;
 
 # This registry is just so we can make sure that the user is NOT trying to save
-# and run continuations later. There's no way in hell Perl 5 can support real
-# unlimited continuations without a biblical amount of rototilling.
+# and run continuations later.
 # Sorry if the name got you excited. :/
 our %CONTINUATION_REGISTRY;
 
