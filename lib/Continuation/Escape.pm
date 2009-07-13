@@ -3,6 +3,7 @@ use strict;
 use warnings;
 use base 'Exporter';
 our @EXPORT = 'call_cc';
+our $VERSION = '0.03';
 
 use Scope::Upper qw/want_at unwind HERE/;
 
@@ -80,13 +81,20 @@ nice. Does anyone know how much work would even be involved? C<:)>
 
 =head1 AUTHOR
 
-Shawn M Moore, C<sartak@bestpractical.com>
+Shawn M Moore, C<sartak@gmail.com>
 
 =head1 THANKS TO
 
 Vincent Pit for writing the excellent L<Scope::Upper> which does B<two> things
 that I've wanted forever (escape continuations and localizing variables at
 higher stack levels).
+
+=head1 COPYRIGHT AND LICENSE
+
+Copyright 2009 Shawn M Moore.
+
+This program is free software; you can redistribute it and/or modify it
+under the same terms as Perl itself.
 
 =cut
 
