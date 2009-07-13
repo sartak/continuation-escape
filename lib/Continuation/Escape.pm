@@ -25,7 +25,7 @@ sub call_cc (&) {
             Carp::croak("Escape continuations are not usable outside of their original scope.");
         }
 
-        unwind((want_at($escape_level) ? @_ : scalar(@_)) => $escape_level);
+        unwind(@_ => $escape_level);
     };
 
     local $CONTINUATION_REGISTRY{$escape_continuation} = $escape_continuation;
