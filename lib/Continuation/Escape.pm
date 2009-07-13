@@ -1,6 +1,7 @@
 package Continuation::Escape;
 use strict;
 use warnings;
+use 5.8.0;
 use base 'Exporter';
 our @EXPORT = 'call_cc';
 our $VERSION = '0.03';
